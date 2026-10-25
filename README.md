@@ -4,6 +4,8 @@
 
 # Rallly
 
+> このリポジトリはRalllyの非公式な日本語改変版です。改変内容の告知日：2026-10-26。[改変通知とソースの案内](NOTICE.md)を参照してください。
+
 **Schedule group meetings, without the back-and-forth**
 
 [**Website**](https://rallly.co) · [**Documentation**](https://support.rallly.co) · [**Discord**](https://discord.gg/uzg4ZcHbuM)
@@ -46,6 +48,18 @@ The quickest way to get started is the hosted version. Create your first poll in
 日本語の画面文言は `apps/web/public/locales/ja/app.json`、メールは `packages/emails/locales/ja/emails.json`、ランディングページは `apps/landing/public/locales/ja/` で管理しています。変数、タグ、ICUメッセージ形式を維持して編集してください。
 
 ランディングページ（`pnpm build:landing`）もトップページは日本語です。英語は `/en`、その他の言語は各言語コードのURLで表示できます。ブログ記事や法務文書の本文は原文のままです。
+
+### 配布時のライセンス対応
+
+ライセンスは元の **AGPLv3またはそれ以降** を維持します。`LICENSE` 本文は変更しません。イメージには `LICENSE` と `NOTICE.md` を同梱し、画面には改変版のソースリンクを表示します。
+
+Docker Hubで配布する前に、次を確認してください。
+
+1. `https://github.com/t-syunya/rallly-ja` とビルド元コミットのソースを、ログイン不要でダウンロードできる状態にする。非公開のままでは、このリンクによるソース提供はできません。公開操作の前には秘密情報が履歴に含まれていないことも確認してください。
+2. Docker Hubの説明欄へ [DOCKERHUB.md](DOCKERHUB.md) の内容を掲載する。イメージの配布場所にも、対応するソースの取得方法を案内します。
+3. 配布した各イメージに対応するソースとビルド・実行に必要なファイルを維持する。タグを動かしても、過去の配布イメージのコミットを削除しないでください。
+
+公開ワークフローではコミットSHAをイメージの `org.opencontainers.image.revision` ラベルと画面のソースリンクへ設定します。手動のDockerビルドでは、クリーンなコミットから `--build-arg SOURCE_REVISION=$(git rev-parse HEAD)` を指定してください。未指定時は開発用として `main` を参照するため、そのまま配布しないでください。自分でさらに改変して配布・運用する場合は、ソースの提供先とリンクもその版に合わせて更新してください。
 
 ### Docker Hubへの自動公開
 
