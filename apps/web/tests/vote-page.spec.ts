@@ -79,6 +79,9 @@ test.describe("vote page", () => {
 
     await page.getByRole("button", { name: "Continue" }).click();
     await page.getByPlaceholder("Jessie Smith").fill("Test user");
+    await expect(page.getByPlaceholder("jessie.smith@example.com")).toHaveCount(
+      0,
+    );
     await page.getByRole("button", { name: "Save availability" }).click();
     await expect(page.getByText("Your response has been saved")).toBeVisible();
     await page.getByRole("button", { name: "Back to poll" }).click();
@@ -147,6 +150,35 @@ test.describe("vote page", () => {
     const votedRow = optionRow(main).first();
     await expect(votedRow).toContainText("Yes");
     await expect(votedRow).toContainText("yes");
+  });
+
+  test("an optional notification email can be removed after a validation error", async ({
+    page,
+  }) => {
+    await page.goto(voteUrl);
+    await page
+      .getByTestId("vote-selector")
+      .first()
+      .getByRole("radio", { name: "Yes", exact: true })
+      .click();
+    await page.getByRole("button", { name: "Continue" }).click();
+    await page.getByPlaceholder("Jessie Smith").fill("Optional email user");
+    await page
+      .getByRole("button", {
+        name: "Add a notification email (optional)",
+        exact: true,
+      })
+      .click();
+    const email = page.getByLabel("Email (optional)", { exact: true });
+    await email.fill("invalid-email");
+    await page.getByRole("button", { name: "Save availability" }).click();
+    await expect(email).toHaveAttribute("aria-invalid", "true");
+    await page
+      .getByRole("button", { name: "Remove email address", exact: true })
+      .click();
+    await expect(email).toHaveCount(0);
+    await page.getByRole("button", { name: "Save availability" }).click();
+    await expect(page.getByText("Your response has been saved")).toBeVisible();
   });
 
   test("mobile stacks the event above the list", async ({ browser }) => {

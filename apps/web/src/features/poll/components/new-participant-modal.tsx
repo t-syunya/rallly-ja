@@ -186,6 +186,7 @@ export const NewParticipantForm = (props: NewParticipantModalProps) => {
   };
   const noteLength = watch("note")?.length ?? 0;
   const [showNote, setShowNote] = React.useState(false);
+  const [showOptionalEmail, setShowOptionalEmail] = React.useState(false);
   const addParticipant = useAddParticipant();
   // An emailed invite link carries the invite token; the response takes it
   // over so the host sees who responded and the same link edits it later.
@@ -322,30 +323,67 @@ export const NewParticipantForm = (props: NewParticipantModalProps) => {
               </FormItem>
             )}
           />
-          <FormField
-            control={form.control}
-            name="email"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>
-                  {t("email")}
-                  {!isEmailRequired
-                    ? ` ${t("optional", { defaultValue: "(optional)" })}`
-                    : null}
-                </FormLabel>
-                <FormControl>
-                  <Input
-                    className="w-full"
-                    {...passwordManagerIgnoreProps}
-                    disabled={formState.isSubmitting}
-                    placeholder={t("emailPlaceholder")}
-                    {...field}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+          {isEmailRequired || isLoggedIn || showOptionalEmail ? (
+            <FormField
+              control={form.control}
+              name="email"
+              render={({ field }) => (
+                <FormItem>
+                  <div className="flex items-center justify-between gap-2">
+                    <FormLabel>
+                      {t("email")}
+                      {!isEmailRequired
+                        ? ` ${t("optional", { defaultValue: "(optional)" })}`
+                        : null}
+                    </FormLabel>
+                    {!isEmailRequired && !isLoggedIn ? (
+                      <Button
+                        type="button"
+                        variant="link"
+                        size="sm"
+                        className="h-auto p-0 text-muted-foreground"
+                        disabled={formState.isSubmitting}
+                        onClick={() => {
+                          form.setValue("email", "", { shouldValidate: true });
+                          setShowOptionalEmail(false);
+                        }}
+                      >
+                        <Trans
+                          i18nKey="newParticipantFormRemoveEmail"
+                          defaults="Remove email address"
+                        />
+                      </Button>
+                    ) : null}
+                  </div>
+                  <FormControl>
+                    <Input
+                      className="w-full"
+                      {...passwordManagerIgnoreProps}
+                      disabled={formState.isSubmitting}
+                      autoFocus={showOptionalEmail}
+                      inputMode="email"
+                      placeholder={t("emailPlaceholder")}
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          ) : (
+            <Button
+              type="button"
+              className="rounded-full"
+              disabled={formState.isSubmitting}
+              onClick={() => setShowOptionalEmail(true)}
+            >
+              <PlusIcon data-icon="inline-start" />
+              <Trans
+                i18nKey="newParticipantFormAddEmail"
+                defaults="Add a notification email (optional)"
+              />
+            </Button>
+          )}
 
           <div className="flex flex-col gap-2">
             <Label>{t("response", { defaultValue: "Response" })}</Label>
