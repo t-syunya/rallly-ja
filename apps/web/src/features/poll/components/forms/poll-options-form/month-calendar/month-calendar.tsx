@@ -7,6 +7,7 @@ import {
   DropdownMenuTrigger,
 } from "@rallly/ui/dropdown-menu";
 import { RadioCards, RadioCardsItem } from "@rallly/ui/radio-pills";
+import { weekdayColor } from "@rallly/ui/weekday-color";
 import {
   CalendarIcon,
   CalendarXIcon,
@@ -64,7 +65,7 @@ const MonthCalendar: React.FunctionComponent<DateTimePickerProps> = ({
   timeZone,
 }) => {
   const { t } = useTranslation();
-  const { locale } = useDateTimeConfig();
+  const { locale, weekStart } = useDateTimeConfig();
   const { user } = useUser();
   const defaultTimeZone = user?.timeZone || getBrowserTimeZone();
   // Time-based options are the default. With no options yet the selected
@@ -237,11 +238,14 @@ const MonthCalendar: React.FunctionComponent<DateTimePickerProps> = ({
                 </Button>
               </div>
               <div className="grid grid-cols-7">
-                {datepicker.daysOfWeek.map((dayOfWeek) => {
+                {datepicker.daysOfWeek.map((dayOfWeek, index) => {
                   return (
                     <div
                       key={dayOfWeek}
-                      className="flex items-center justify-center pb-2 font-medium text-muted-foreground text-sm"
+                      className={cn(
+                        "flex items-center justify-center pb-2 font-medium text-muted-foreground text-sm",
+                        weekdayColor((weekStart + index) % 7),
+                      )}
                     >
                       {dayOfWeek.substring(0, 2)}
                     </div>
@@ -324,7 +328,14 @@ const MonthCalendar: React.FunctionComponent<DateTimePickerProps> = ({
                               : "border-transparent group-hover:border-accent-border group-active:bg-accent",
                           )}
                         />
-                        <span className="z-10">{day.day}</span>
+                        <span
+                          className={cn(
+                            "z-10",
+                            weekdayColor(day.date.getDay()),
+                          )}
+                        >
+                          {day.day}
+                        </span>
                       </button>
                     </div>
                   );

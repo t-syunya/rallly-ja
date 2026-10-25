@@ -34,6 +34,7 @@ export function MonthGrid({
   renderDay,
   className,
   classNames,
+  components,
   ...props
 }: Extract<React.ComponentProps<typeof DayPicker>, { mode?: undefined }> & {
   renderDay: (props: DayButtonProps) => React.ReactNode;
@@ -56,6 +57,7 @@ export function MonthGrid({
             orientation === "left" ? ChevronLeftIcon : ChevronRightIcon;
           return <Icon className={cn("size-4", chevronClassName)} />;
         },
+        ...components,
       }}
       className={cn("flex w-full flex-col", className)}
       classNames={{

@@ -17,6 +17,7 @@ import {
   useEventCalendarNavigation,
 } from "@rallly/ui/event-calendar";
 import { DEFAULT_EVENT_CALENDAR_I18N } from "@rallly/ui/event-calendar/event-calendar-i18n";
+import { weekdayColor } from "@rallly/ui/weekday-color";
 import React from "react";
 import { createBreakpoint } from "react-use";
 import { Trans, useTranslation } from "@/i18n/client";
@@ -283,9 +284,13 @@ const WeekCalendar: React.FunctionComponent<DateTimePickerProps> = ({
         slotDuration={15}
         snapDuration={30}
         i18n={i18n}
-        renderDayHeader={({ day }) =>
-          formatDateTime(day, "weekdayDay", { timeZone: FLOATING_TIME_ZONE })
-        }
+        renderDayHeader={({ day }) => (
+          <span className={weekdayColor(day.getUTCDay())}>
+            {formatDateTime(day, "weekdayDay", {
+              timeZone: FLOATING_TIME_ZONE,
+            })}
+          </span>
+        )}
         renderTimeGutterSlot={({ time, hour, minute }) =>
           // The engine's default gutter uses date-fns with its own format
           // string, ignoring our 12h/24h preference. Render the hour label with
