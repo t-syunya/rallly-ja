@@ -64,7 +64,16 @@ export class PollPage {
 
     await page.type('[placeholder="Jessie Smith"]', name);
     if (email) {
-      await page.type('[placeholder="jessie.smith@example.com"]', email);
+      const emailField = page.getByPlaceholder("jessie.smith@example.com");
+      if (!(await emailField.isVisible())) {
+        await page
+          .getByRole("button", {
+            name: "Add a notification email (optional)",
+            exact: true,
+          })
+          .click();
+      }
+      await emailField.fill(email);
     }
 
     await page.click("text='Save availability'");

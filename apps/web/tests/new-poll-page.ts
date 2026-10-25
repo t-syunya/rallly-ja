@@ -21,8 +21,6 @@ export class NewPollPage {
   }): Promise<PollPage> {
     const page = this.page;
 
-    await page.getByLabel(/title|event/i).fill(name);
-
     // A click that lands before React hydrates is dropped, so retry until the
     // field shows.
     const locationField = page.getByLabel("Location", { exact: true });
@@ -66,6 +64,8 @@ export class NewPollPage {
       await page.getByRole("switch", { name: /comments/i }).click();
     }
 
+    // The controls above wait for hydration; an earlier fill can be reset.
+    await page.getByLabel(/title|event/i).fill(name);
     await page.getByRole("button", { name: /^create poll$/i }).click();
 
     // The Share dialog opening on the poll page is the success signal, so
