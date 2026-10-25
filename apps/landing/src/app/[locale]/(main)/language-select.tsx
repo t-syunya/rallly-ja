@@ -10,6 +10,7 @@ import {
 } from "@rallly/ui/select";
 import { usePathname, useRouter } from "next/navigation";
 import { useTranslation } from "@/i18n/client/use-translation";
+import { defaultLocale } from "@/i18n/settings";
 
 export const LanguageSelect = () => {
   const router = useRouter();
@@ -24,15 +25,16 @@ export const LanguageSelect = () => {
           return;
         }
 
-        const isLocalizedPath = supportedLngs.some((lng) =>
-          pathname?.startsWith(`/${lng}`),
+        const localeInPath = supportedLngs.find(
+          (lng) => pathname === `/${lng}` || pathname.startsWith(`/${lng}/`),
         );
 
-        const newPath = isLocalizedPath
-          ? pathname.replace(new RegExp(`^/${i18n.language}`), "")
+        const newPath = localeInPath
+          ? pathname.slice(localeInPath.length + 1)
           : pathname;
 
-        router.replace(`/${newLocale}${newPath}`);
+        const prefix = newLocale === defaultLocale ? "" : `/${newLocale}`;
+        router.replace(`${prefix}${newPath}` || "/");
       }}
     >
       <SelectTrigger

@@ -1,7 +1,6 @@
-import { defaultLocale, supportedLngs } from "@rallly/languages";
-import { getPreferredLocaleFromHeaders } from "@rallly/languages/get-preferred-locale";
-import { cookies, headers } from "next/headers";
-import { LOCALE_COOKIE_NAME } from "@/lib/locale/constants";
+import { cookies } from "next/headers";
+import { languages as supportedLngs } from "@/i18n/settings";
+import { DEFAULT_LOCALE, LOCALE_COOKIE_NAME } from "@/lib/locale/constants";
 
 export async function getLocale() {
   const cookieStore = await cookies();
@@ -10,11 +9,5 @@ export async function getLocale() {
     return cookieLocale;
   }
 
-  const headersList = await headers();
-  const acceptLanguageHeader = headersList.get("accept-language");
-  if (acceptLanguageHeader) {
-    return getPreferredLocaleFromHeaders({ acceptLanguageHeader });
-  }
-
-  return defaultLocale;
+  return DEFAULT_LOCALE;
 }

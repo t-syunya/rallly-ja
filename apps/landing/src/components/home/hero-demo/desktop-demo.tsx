@@ -48,7 +48,7 @@ export const DesktopDemo = ({
 
   const monthGroups: { label: string; span: number }[] = [];
   for (const day of days) {
-    const label = `${format.month.format(day.date).toUpperCase()} ${format.year.format(day.date)}`;
+    const label = format.monthYear.format(day.date).toUpperCase();
     const last = monthGroups.at(-1);
     if (last?.label === label) {
       last.span += day.options.length;

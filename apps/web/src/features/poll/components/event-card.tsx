@@ -15,7 +15,7 @@ import {
 import TruncatedLinkify from "@/features/poll/components/truncated-linkify";
 import VoteIcon from "@/features/poll/components/vote-icon";
 import { SpaceIcon } from "@/features/space/components/space-icon";
-import { Trans } from "@/i18n/client";
+import { Trans, useTranslation } from "@/i18n/client";
 
 function IconDescriptionList({
   className,
@@ -119,6 +119,7 @@ export function EventDetails({
 }
 
 export function EventCard({ description }: { description: React.ReactNode }) {
+  const { t } = useTranslation();
   const poll = usePoll();
   return (
     <Card>
@@ -128,7 +129,7 @@ export function EventCard({ description }: { description: React.ReactNode }) {
         <h2 className="mt-3 mb-1.5 font-medium text-sm">
           <Trans i18nKey="responseOptions" defaults="Response options" />
         </h2>
-        <IconDescriptionList aria-label="Response options">
+        <IconDescriptionList aria-label={t("responseOptions")}>
           <IconDescription
             icon={<VoteIcon type="yes" />}
             label={<Trans i18nKey="yes" defaults="Yes" />}

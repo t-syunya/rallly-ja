@@ -2,6 +2,7 @@ import allLanguages from "@rallly/languages";
 import type { InitOptions, Namespace } from "i18next";
 
 export const fallbackLng = "en";
+export const defaultLocale = "ja";
 export const languages = Object.keys(allLanguages);
 export const defaultNS = "common";
 export const cookieName = "i18next";

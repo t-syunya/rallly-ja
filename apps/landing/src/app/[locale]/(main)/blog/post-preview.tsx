@@ -1,10 +1,7 @@
 "use client";
 
-import dayjs from "dayjs";
-import localizedFormat from "dayjs/plugin/localizedFormat";
+import DateFormatter from "@/components/blog/date-formatter";
 import { LinkBase } from "@/i18n/client/link";
-
-dayjs.extend(localizedFormat);
 
 type Props = {
   title: string;
@@ -30,7 +27,7 @@ export const PostPreview = ({
             <span aria-hidden="true">·</span>
           </>
         ) : null}
-        <time dateTime={date}>{dayjs(date).format("LL")}</time>
+        <DateFormatter dateString={date} />
       </div>
       <h2 className="mt-2 text-balance font-medium text-gray-800 text-xl tracking-tight">
         <LinkBase href={`/blog/${slug}`} className="hover:underline">

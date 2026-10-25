@@ -1,4 +1,5 @@
 export const LOCALE_COOKIE_NAME = "rallly_locale";
+export const DEFAULT_LOCALE = "ja";
 
 // Read via process.env: this module is imported from the proxy (edge) and
 // client bundles, where `@/env` is unavailable.

@@ -1,4 +1,3 @@
-import languages from "@rallly/languages";
 import {
   Select,
   SelectContent,
@@ -7,6 +6,7 @@ import {
   SelectValue,
 } from "@rallly/ui/select";
 import { LanguagesIcon } from "lucide-react";
+import { languageNames as languages } from "@/i18n/settings";
 
 export const LanguageSelect: React.FunctionComponent<{
   id?: string;

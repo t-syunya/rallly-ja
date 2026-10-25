@@ -1,6 +1,5 @@
 "use client";
 
-import { defaultLocale } from "@rallly/languages";
 import React from "react";
 import type { DateTimePreset } from "@/lib/datetime/format";
 import {
@@ -11,6 +10,7 @@ import {
 import { getLocaleDefaults, getWeekdayNames } from "@/lib/datetime/locales";
 import type { DateInput, TimeFormat } from "@/lib/datetime/types";
 import { normalizeTimeZone } from "@/lib/datetime/utils";
+import { DEFAULT_LOCALE } from "@/lib/locale/constants";
 import { detectBrowserTimeZone } from "@/lib/utils/date-time-utils";
 
 type DateTimeConfig = {
@@ -66,7 +66,7 @@ export function DateTimeProvider({
 
 export function useDateTimeConfig() {
   const config = React.useContext(DateTimeContext);
-  const locale = config?.locale ?? defaultLocale;
+  const locale = config?.locale ?? DEFAULT_LOCALE;
 
   return {
     locale,

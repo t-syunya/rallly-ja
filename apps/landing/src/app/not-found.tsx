@@ -3,35 +3,35 @@ import { FileSearchIcon } from "lucide-react";
 import type { Metadata } from "next";
 import "./[locale]/globals.css";
 import { sans } from "@/fonts/sans";
+import { defaultLocale } from "@/i18n/settings";
+import japanese from "../../public/locales/ja/common.json";
 
 export const metadata: Metadata = {
-  title: "404 not found | Rallly",
-  description: "The page you are looking for does not exist.",
+  title: `${japanese.notFoundTitle} | Rallly`,
+  description: japanese.notFoundDescription,
 };
 
 // Renders outside the [locale] segment, so there is no locale and no
-// I18nProvider to read from. Copy is hardcoded English.
+// I18nProvider to read from, so use the default language's dictionary directly.
 export default function NotFound() {
   return (
-    <html lang="en" className={sans.className}>
+    <html lang={defaultLocale} className={sans.className}>
       <body>
         <div className="inset-0 flex h-full w-full items-center justify-center lg:absolute">
           <div className="space-y-8">
             <div className="space-y-4">
               <FileSearchIcon className="mb-4 inline-block size-24 text-gray-400" />
               <div className="mb-2 font-semibold text-3xl text-primary">
-                404 not found
+                {japanese.notFoundTitle}
               </div>
-              <p className="text-gray-600">
-                We couldn't find the page you're looking for.
-              </p>
+              <p className="text-gray-600">{japanese.notFoundDescription}</p>
             </div>
             <div className="flex space-x-3">
               <a href="/" className={buttonVariants({ variant: "primary" })}>
-                Go to home
+                {japanese.goToHome}
               </a>
               <a href="https://support.rallly.co" className={buttonVariants()}>
-                Support
+                {japanese.support}
               </a>
             </div>
           </div>

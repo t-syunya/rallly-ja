@@ -1,6 +1,5 @@
 import "./globals.css";
 
-import { supportedLngs } from "@rallly/languages";
 import { Toaster } from "@rallly/ui/sonner";
 import { TooltipProvider } from "@rallly/ui/tooltip";
 import { domAnimation, LazyMotion } from "motion/react";
@@ -19,6 +18,7 @@ import { InstancePolicyProvider } from "@/features/instance-policy/client";
 import { loadInstancePolicy } from "@/features/instance-policy/loaders";
 import { I18nProvider } from "@/i18n/client";
 import { initI18next } from "@/i18n/i18n";
+import { languages as supportedLngs } from "@/i18n/settings";
 import { chunkRegistrationLogScript } from "@/lib/chunk-registration-log";
 import { TimeZoneSync } from "@/lib/datetime/timezone-sync";
 import { FeatureFlagsProvider } from "@/lib/feature-flags/client";

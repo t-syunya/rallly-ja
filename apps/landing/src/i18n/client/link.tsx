@@ -1,8 +1,8 @@
 "use client";
 
-import { defaultLocale } from "@rallly/languages";
 import Link from "next/link";
 import { useTranslation } from "@/i18n/client/use-translation";
+import { defaultLocale } from "@/i18n/settings";
 
 export const LinkBase = ({
   href,

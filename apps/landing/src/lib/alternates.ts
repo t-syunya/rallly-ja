@@ -1,10 +1,12 @@
 import { supportedLngs } from "@rallly/languages";
 import { absoluteUrl } from "@rallly/utils/absolute-url";
 import type { Metadata } from "next";
+import { defaultLocale } from "@/i18n/settings";
 
 const localizedUrl = (locale: string, path: string) =>
-  // `/en/*` redirects to `/*`, so English lives at the unprefixed URL
-  locale === "en" ? absoluteUrl(path) : absoluteUrl(`/${locale}${path}`);
+  locale === defaultLocale
+    ? absoluteUrl(path)
+    : absoluteUrl(`/${locale}${path}`);
 
 export function getAlternateLanguages(path = "/") {
   const languages: Record<string, string> = {
