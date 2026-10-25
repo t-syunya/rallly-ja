@@ -4,7 +4,7 @@ import type { ScheduledEventInviteStatus } from "@rallly/database";
 import { Prisma, prisma } from "@rallly/database";
 import { sendEventCanceledEmail } from "@rallly/emails/templates/event-canceled";
 import { sendFinalizeParticipantEmail } from "@rallly/emails/templates/finalized-participant";
-import { shortUrl } from "@rallly/utils/absolute-url";
+import { absoluteUrl, shortUrl } from "@rallly/utils/absolute-url";
 import { nanoid } from "@rallly/utils/nanoid";
 import { Effect } from "effect";
 import { updateTag } from "next/cache";
@@ -194,6 +194,7 @@ export const sendScheduledEventInviteEmail = Effect.fn(
         },
         props: {
           pollUrl: shortUrl(`/invite/${poll.id}`),
+          calendarUrl: absoluteUrl(`/api/event/${event.id}/google-calendar`),
           title: event.title,
           hostName: host.name,
           location: locationText,

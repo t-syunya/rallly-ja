@@ -85,7 +85,20 @@ app.get("/:eventId/google-calendar", async (c) => {
   if (!event) {
     return c.json({ error: "Event not found" }, 404);
   }
-  return c.redirect(google(toCalendarEvent(event)));
+  if (event.status !== "confirmed") {
+    return c.json({ error: "Event is not confirmed" }, 409);
+  }
+  const url = new URL(google(toCalendarEvent(event)));
+  if (event.timeZone && !event.allDay) {
+    url.searchParams.set("ctz", event.timeZone);
+  } else if (!event.allDay) {
+    // Floating times use the viewer's local clock, matching the attached ICS.
+    url.searchParams.set(
+      "dates",
+      (url.searchParams.get("dates") ?? "").replaceAll("Z", ""),
+    );
+  }
+  return c.redirect(url.toString());
 });
 
 app.get("/:eventId/outlook", async (c) => {
