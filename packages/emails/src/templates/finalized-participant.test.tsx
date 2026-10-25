@@ -22,6 +22,24 @@ async function renderText(props: { vote?: "yes" | "ifNeedBe" | "no" } = {}) {
 
 describe("FinalizeParticipantEmail", () => {
   it.each([
+    "en",
+    "ja",
+  ])("includes a calendar registration link in %s", async (locale) => {
+    const calendarUrl =
+      "https://example.test/api/event/event-123/google-calendar";
+    const html = await render(
+      await FinalizeParticipantEmail({ ...baseProps, locale, calendarUrl }),
+    );
+    expect(html).toContain(`href="${calendarUrl}"`);
+    expect(html).toContain(`href="${baseProps.pollUrl}"`);
+  });
+
+  it("does not invent a registration link when none was provided", async () => {
+    const html = await render(await FinalizeParticipantEmail(baseProps));
+    expect(html).not.toContain("/google-calendar");
+  });
+
+  it.each([
     ["yes", "Yes"],
     ["ifNeedBe", "If need be"],
     ["no", "No"],

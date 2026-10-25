@@ -1,4 +1,5 @@
 {
+  "addToGoogleCalendar": "Googleカレンダーに登録",
   "accountDeletionScheduled_button": "アカウントを管理",
   "accountDeletionScheduled_cancel": "削除を取り消す場合は、期日までに<a>アカウント設定</a>から手続きしてください。",
   "accountDeletionScheduled_footer": "<domain />のアカウント削除がリクエストされたため、このメールをお送りしています。心当たりがない場合は、期日までにログインして削除を取り消すか、<a>{supportEmail}</a>にお問い合わせください。",

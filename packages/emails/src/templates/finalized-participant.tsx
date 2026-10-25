@@ -10,6 +10,7 @@ import {
   Button,
   Container,
   Heading,
+  Link,
   Strong,
   Text,
 } from "../components/styled-components";
@@ -26,6 +27,7 @@ type FinalizeParticipantEmailProps = {
   title: string;
   hostName: string;
   pollUrl: string;
+  calendarUrl?: string;
   location?: string;
   conferencing?: EmailConferencing;
   /** Their vote on the booked date; omitted when they didn't vote on it. */
@@ -36,6 +38,7 @@ async function FinalizeParticipantEmail({
   title,
   hostName,
   pollUrl,
+  calendarUrl,
   date,
   time,
   location,
@@ -129,6 +132,15 @@ async function FinalizeParticipantEmail({
                 "Please find attached a calendar invite for this event.",
             })}
           </Text>
+          {calendarUrl ? (
+            <Text>
+              <Link href={calendarUrl} color={chrome.primaryColor}>
+                {t("addToGoogleCalendar", {
+                  defaultValue: "Add to Google Calendar",
+                })}
+              </Link>
+            </Text>
+          ) : null}
           <Button href={pollUrl} color={chrome.primaryColor}>
             <Trans
               t={t}
@@ -150,6 +162,7 @@ FinalizeParticipantEmail.PreviewProps = {
   title: "Untitled Poll",
   hostName: "Host",
   pollUrl: "https://rallly.co",
+  calendarUrl: "https://rallly.co/api/event/example/google-calendar",
   date: "Friday, 12th June 2020",
   time: "6:00 PM to 11:00 PM BST",
   location: "Codfather, 100 Fish Street, London",

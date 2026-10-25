@@ -143,6 +143,7 @@ test.describe("Queued invite emails", () => {
     const { email } = await captureOne("invite-queued@example.com");
     expect(email.Subject).toBe(`Date booked for ${TITLE}`);
     expect(email.Text).toContain("Invite Email Host");
+    expect(email.HTML).toContain(`/api/event/${EVENT_ID}/google-calendar`);
     expect(email.Attachments).toHaveLength(1);
     const ics = (
       await getAttachmentText(email.ID, email.Attachments[0].PartID)
@@ -383,6 +384,9 @@ test.describe("Booking a poll", () => {
       where: { id: poll.id },
       select: { scheduledEventId: true },
     });
+    expect(email.HTML).toContain(
+      `/api/event/${scheduledEventId}/google-calendar`,
+    );
     const invites = await prisma.scheduledEventInvite.findMany({
       where: { scheduledEventId: scheduledEventId ?? "" },
       orderBy: { inviteeEmail: "asc" },
