@@ -1,4 +1,6 @@
 import { Card } from "@rallly/ui/card";
+import { BookOpenIcon } from "lucide-react";
+import { Link } from "@/components/link";
 import { Spinner } from "@/components/spinner";
 import { ThemeSwitcher } from "@/components/theme-switcher";
 import { EventSidebar } from "@/features/poll/invite/components/event-sidebar";
@@ -7,6 +9,7 @@ import { VotePageFooter } from "@/features/poll/vote/components/vote-page-footer
 import { VotePanel } from "@/features/poll/vote/components/vote-panel";
 import type { VotePageView } from "@/features/poll/vote/types";
 import type { UserDTO } from "@/features/user/schema";
+import { Trans } from "@/i18n/client";
 
 /**
  * Participant view as one card centered on a page that never scrolls: the
@@ -49,6 +52,15 @@ export function VotePage({
             on the card whenever the gutter beside it is narrower than
             these controls. */}
         <div className="flex items-center justify-end gap-2 p-3 lg:p-0">
+          <Link
+            href="/guide"
+            className="flex items-center gap-2 p-2 text-muted-foreground text-sm underline-offset-4 hover:underline"
+          >
+            <BookOpenIcon className="size-4" />
+            <span className="sr-only sm:not-sr-only">
+              <Trans i18nKey="usageGuide" defaults="Japanese usage guide" />
+            </span>
+          </Link>
           <ThemeSwitcher />
           {canManage ? <ManagePollButton pollId={view.poll.id} /> : null}
         </div>

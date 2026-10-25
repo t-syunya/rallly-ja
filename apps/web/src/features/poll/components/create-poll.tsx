@@ -12,7 +12,7 @@ import {
 import { Form } from "@rallly/ui/form";
 import { Popover, PopoverContent, PopoverTrigger } from "@rallly/ui/popover";
 import { toast } from "@rallly/ui/sonner";
-import { ArrowLeftIcon, CheckIcon } from "lucide-react";
+import { ArrowLeftIcon, BookOpenIcon, CheckIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
 import React from "react";
 import { useForm, useFormContext } from "react-hook-form";
@@ -216,6 +216,15 @@ export const CreatePoll = ({
             )}
           </div>
           <div className="flex shrink-0 items-center gap-x-2">
+            <Link
+              href="/guide"
+              className={buttonVariants({ variant: "ghost" })}
+            >
+              <BookOpenIcon />
+              <span className="sr-only sm:not-sr-only">
+                <Trans i18nKey="usageGuide" defaults="Japanese usage guide" />
+              </span>
+            </Link>
             {!isLoggedIn ? <GuestModeBadge /> : null}
             <UserDropdown />
           </div>
