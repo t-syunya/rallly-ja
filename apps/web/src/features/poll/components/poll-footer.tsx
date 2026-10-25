@@ -33,13 +33,15 @@ export function PollFooter({
 
   const isAttributionHidden = hideAttribution || poll.space?.hideAttribution;
 
-  if (isAttributionHidden && footerLinks.length === 0) {
-    return null;
-  }
-
   return (
     <div className="flex flex-col items-center gap-4 py-3 text-center text-muted-foreground text-sm">
       <InstanceFooterLinks links={footerLinks} />
+      <Link
+        href="/guide"
+        className="text-sm underline-offset-4 hover:underline"
+      >
+        <Trans i18nKey="usageGuide" defaults="Japanese usage guide" />
+      </Link>
       {isAttributionHidden ? null : attributionAction ? (
         <span className={cn(pillClassName, "gap-1.5 pr-2")}>
           <PoweredByLink className="inline-flex h-full items-center gap-2" />

@@ -1146,6 +1146,7 @@
   "upToDate": "最新です",
   "url": "URL",
   "urlInvalid": "有効なURLを入力してください",
+  "usageGuide": "使い方ガイド",
   "user": "ユーザー",
   "userCount": "{count, number, ::compact-short}",
   "userRegistration": "ユーザー登録",

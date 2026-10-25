@@ -1146,6 +1146,7 @@
   "upToDate": "Up to date",
   "url": "URL",
   "urlInvalid": "Must be a valid URL",
+  "usageGuide": "Japanese usage guide",
   "user": "User",
   "userCount": "{count, number, ::compact-short}",
   "userRegistration": "User registration",
