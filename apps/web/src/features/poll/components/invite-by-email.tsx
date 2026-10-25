@@ -230,7 +230,7 @@ export function InviteByEmail({
             inputMode="email"
             autoComplete="off"
             {...passwordManagerIgnoreProps}
-            placeholder="jessie.smith@example.com"
+            placeholder={t("emailPlaceholder")}
             disabled={!isOpen}
             aria-invalid={form.formState.errors.email ? true : undefined}
             aria-describedby={isOpen ? undefined : "share-dialog-closed-reason"}

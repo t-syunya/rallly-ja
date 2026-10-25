@@ -86,8 +86,11 @@ export function getScores(
 export function formatDemoParts(locale: string) {
   const utc = { timeZone: "UTC" } as const;
   return {
-    month: new Intl.DateTimeFormat(locale, { ...utc, month: "short" }),
-    year: new Intl.DateTimeFormat(locale, { ...utc, year: "numeric" }),
+    monthYear: new Intl.DateTimeFormat(locale, {
+      ...utc,
+      year: "numeric",
+      month: "short",
+    }),
     weekday: new Intl.DateTimeFormat(locale, { ...utc, weekday: "short" }),
     dayOfMonth: new Intl.DateTimeFormat(locale, { ...utc, day: "numeric" }),
     fullDay: new Intl.DateTimeFormat(locale, {

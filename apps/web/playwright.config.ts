@@ -21,6 +21,21 @@ export default defineConfig({
   use: {
     viewport: { width: 1280, height: 720 },
     baseURL,
+    storageState: {
+      cookies: [
+        {
+          name: "rallly_locale",
+          value: "en",
+          domain: "localhost",
+          path: "/",
+          expires: -1,
+          httpOnly: false,
+          secure: false,
+          sameSite: "Lax",
+        },
+      ],
+      origins: [],
+    },
     permissions: ["clipboard-read"],
     trace: "retain-on-failure",
   },

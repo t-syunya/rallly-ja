@@ -7,6 +7,7 @@ export const languages = {
   es: "Español",
   fr: "Français",
   it: "Italiano",
+  ja: "日本語",
   hu: "Magyar",
   nl: "Nederlands",
   no: "Norsk",

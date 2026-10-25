@@ -1,7 +1,6 @@
-import { defaultLocale, supportedLngs } from "@rallly/languages";
-import { getPreferredLocaleFromHeaders } from "@rallly/languages/get-preferred-locale";
 import type { NextRequest, NextResponse } from "next/server";
-import { LOCALE_COOKIE_NAME } from "@/lib/locale/constants";
+import { languages as supportedLngs } from "@/i18n/settings";
+import { DEFAULT_LOCALE, LOCALE_COOKIE_NAME } from "@/lib/locale/constants";
 
 // Read via process.env to keep `@/env` out of the middleware bundle —
 // t3-env validates eagerly on import and would crash server boot on any
@@ -16,12 +15,7 @@ export function getLocaleFromRequest(req: NextRequest) {
     return cookieLocale;
   }
 
-  const acceptLanguageHeader = req.headers.get("accept-language");
-  if (acceptLanguageHeader) {
-    return getPreferredLocaleFromHeaders({ acceptLanguageHeader });
-  }
-
-  return defaultLocale;
+  return DEFAULT_LOCALE;
 }
 
 export function setLocaleCookie(

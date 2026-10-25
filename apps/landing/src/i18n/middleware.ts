@@ -1,7 +1,6 @@
-import { getPreferredLocale } from "@rallly/languages/get-preferred-locale";
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
-import { fallbackLng, headerName, languages } from "./settings";
+import { defaultLocale, headerName, languages } from "./settings";
 
 function getLocaleFromPath(pathname: string): string | undefined {
   return languages.find(
@@ -27,43 +26,22 @@ function createLocalizedHeaders(req: NextRequest, locale: string): Headers {
   return headers;
 }
 
-function shouldRedirectFallbackLocale(pathname: string): boolean {
-  return (
-    pathname === `/${fallbackLng}` || pathname.startsWith(`/${fallbackLng}/`)
-  );
-}
-
 export function i18nMiddleware(req: NextRequest) {
   const pathname = req.nextUrl.pathname;
   const newUrl = req.nextUrl.clone();
 
   const localeInPath = getLocaleFromPath(pathname);
-  const preferredLocale = getPreferredLocale({
-    acceptLanguageHeader: req.headers.get("accept-language") ?? undefined,
-  });
-
-  // Ensure we always have a valid locale, fallback to fallbackLng if needed
-  const locale = localeInPath || preferredLocale || fallbackLng;
+  const locale = localeInPath || defaultLocale;
   const headers = createLocalizedHeaders(req, locale);
 
-  // If the URL starts with the fallback language prefix, redirect to remove it
-  if (shouldRedirectFallbackLocale(pathname)) {
-    const pathWithoutFallback = removeLocaleFromPath(pathname, fallbackLng);
-    newUrl.pathname = pathWithoutFallback;
+  // Japanese uses the unprefixed URL; explicit paths select other languages.
+  if (localeInPath === defaultLocale) {
+    newUrl.pathname = removeLocaleFromPath(pathname, defaultLocale);
     return NextResponse.redirect(newUrl);
   }
 
-  // If no locale in path, handle based on preferred locale
   if (!localeInPath) {
-    // If preferred locale is not fallback language, redirect to add locale prefix
-    if (preferredLocale !== fallbackLng) {
-      newUrl.pathname = addLocaleToPath(pathname, preferredLocale);
-      return NextResponse.redirect(newUrl);
-    }
-
-    // If preferred locale is fallback language, rewrite internally to include it
-    // This keeps the URL clean externally but routes internally to /[locale]/...
-    newUrl.pathname = addLocaleToPath(pathname, fallbackLng);
+    newUrl.pathname = addLocaleToPath(pathname, defaultLocale);
     return NextResponse.rewrite(newUrl, { request: { headers } });
   }
 

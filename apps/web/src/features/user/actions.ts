@@ -2,13 +2,13 @@
 
 import { subject } from "@casl/ability";
 import { prisma } from "@rallly/database";
-import { supportedLngs } from "@rallly/languages";
 import { refresh } from "next/cache";
 import { headers } from "next/headers";
 import * as z from "zod";
 import { avatarAssetProfile } from "@/features/user/constants";
 import { isEmailTaken } from "@/features/user/data";
 import { unbanUser, updateUserRole } from "@/features/user/mutations";
+import { languages as supportedLngs } from "@/i18n/settings";
 import authLib from "@/lib/auth";
 import { timeFormatSchema, weekStartSchema } from "@/lib/datetime/schema";
 import { AppError } from "@/lib/errors/app-error";

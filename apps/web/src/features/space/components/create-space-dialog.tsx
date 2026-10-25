@@ -26,9 +26,10 @@ import { useMutation } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import { createSpaceAction } from "@/features/space/actions";
 import { createSpaceSchema } from "@/features/space/schema";
-import { Trans } from "@/i18n/client";
+import { Trans, useTranslation } from "@/i18n/client";
 
 export function CreateSpaceDialog(props: DialogProps) {
+  const { t } = useTranslation();
   const form = useForm({
     resolver: zodResolver(createSpaceSchema),
     defaultValues: {
@@ -76,7 +77,7 @@ export function CreateSpaceDialog(props: DialogProps) {
                   <FormControl>
                     <Input
                       {...passwordManagerIgnoreProps}
-                      placeholder="e.g. Acme Corp"
+                      placeholder={t("organizationNamePlaceholder")}
                       {...field}
                     />
                   </FormControl>

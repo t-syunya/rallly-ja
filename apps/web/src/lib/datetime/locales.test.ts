@@ -4,6 +4,12 @@ import { getLocaleDefaults, getWeekdayNames } from "@/lib/datetime/locales";
 // Tripwire: these lock the CLDR-derived defaults so an ICU/Node upgrade that
 // shifts one fails loudly.
 describe("getLocaleDefaults", () => {
+  it("uses a 24-hour clock and Sunday week start for ja", () => {
+    expect(getLocaleDefaults("ja")).toEqual({
+      timeFormat: "hours24",
+      weekStart: 0,
+    });
+  });
   it("uses a 12-hour clock and Sunday week start for en (US)", () => {
     expect(getLocaleDefaults("en")).toEqual({
       timeFormat: "hours12",
@@ -36,6 +42,11 @@ describe("getLocaleDefaults", () => {
 // Order follows the locale's default week start; `day` stays canonical
 // (0=Sunday .. 6=Saturday) regardless of position.
 describe("getWeekdayNames", () => {
+  it("uses Japanese weekday names starting with Sunday", () => {
+    const weekdays = getWeekdayNames("ja");
+    expect(weekdays[0]).toEqual({ day: 0, label: "日曜日", short: "日" });
+    expect(weekdays[6]).toEqual({ day: 6, label: "土曜日", short: "土" });
+  });
   it("starts with Sunday for en", () => {
     expect(getWeekdayNames("en")).toEqual([
       { day: 0, label: "Sunday", short: "Sun" },

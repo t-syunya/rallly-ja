@@ -39,6 +39,14 @@ The quickest way to get started is the hosted version. Create your first poll in
 
 ## 🐳 Self-hosting
 
+### 日本語版について
+
+このリポジトリのWebアプリ（`pnpm build` / `pnpm start`）は、初回アクセス時に日本語で表示されます。既存の言語設定がある場合は、その設定が優先されます。日本語に切り替えるには、設定画面の言語選択を利用するか、ブラウザーの `rallly_locale` Cookieを削除してください。
+
+日本語の画面文言は `apps/web/public/locales/ja/app.json`、メールは `packages/emails/locales/ja/emails.json`、ランディングページは `apps/landing/public/locales/ja/` で管理しています。変数、タグ、ICUメッセージ形式を維持して編集してください。
+
+ランディングページ（`pnpm build:landing`）もトップページは日本語です。英語は `/en`、その他の言語は各言語コードのURLで表示できます。ブログ記事や法務文書の本文は原文のままです。
+
 Prefer to run your own instance? Rallly ships as a Docker image and can be self-hosted in minutes.
 
 See the [self-hosting docs](https://support.rallly.co/self-hosting) for installation and [configuration options](https://support.rallly.co/self-hosting/configuration-options).

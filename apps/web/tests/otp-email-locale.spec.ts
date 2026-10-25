@@ -12,6 +12,15 @@ const germanSubject = "Bitte bestätige Deine E-Mail-Adresse";
 // email language is resolved from the account when there is one, otherwise
 // from the request itself.
 test.describe.serial(() => {
+  test.use({
+    storageState: { cookies: [], origins: [] },
+    extraHTTPHeaders: async ({ baseURL }, use) => {
+      if (!baseURL) {
+        throw new Error("baseURL is required for OTP requests");
+      }
+      await use({ origin: new URL(baseURL).origin });
+    },
+  });
   test.beforeAll(async () => {
     await prisma.user.deleteMany({
       where: { email: { in: [unknownEmail, existingEmail] } },
@@ -50,7 +59,7 @@ test.describe.serial(() => {
     expect(email.Subject).toBe(germanSubject);
   });
 
-  test("login code follows accept-language when there is no cookie", async ({
+  test("login code uses Japanese for the default locale", async ({
     request,
   }) => {
     const send = await request.post(
@@ -63,7 +72,9 @@ test.describe.serial(() => {
     expect(send.status()).toBe(200);
 
     const { email } = await captureOne(unknownEmail);
-    expect(email.Subject).toBe(germanSubject);
+    expect(email.Subject).toBe("メールアドレスを確認してください");
+    expect(email.HTML).toContain("このコードの有効期限は15分です");
+    expect(email.HTML).not.toContain("{code}");
   });
 
   test("login code follows the account language over the device", async ({

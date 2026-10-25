@@ -16,6 +16,7 @@ import {
   EventCalendarWeekView,
   useEventCalendarNavigation,
 } from "@rallly/ui/event-calendar";
+import { DEFAULT_EVENT_CALENDAR_I18N } from "@rallly/ui/event-calendar/event-calendar-i18n";
 import React from "react";
 import { createBreakpoint } from "react-use";
 import { Trans, useTranslation } from "@/i18n/client";
@@ -111,6 +112,16 @@ const WeekCalendar: React.FunctionComponent<DateTimePickerProps> = ({
 
   const i18n = React.useMemo(
     () => ({
+      labels: {
+        ...DEFAULT_EVENT_CALENDAR_I18N.labels,
+        allDay: t("allDay"),
+        continues: t("calendarContinues"),
+        dropNotAllowed: t("calendarDropNotAllowed"),
+      },
+      formats: {
+        ...DEFAULT_EVENT_CALENDAR_I18N.formats,
+        dayAria: "yyyy-MM-dd",
+      },
       functions: {
         formatTitle: (
           _view: CalendarView,
@@ -132,7 +143,7 @@ const WeekCalendar: React.FunctionComponent<DateTimePickerProps> = ({
           }),
       },
     }),
-    [formatDateTimeRange, formatTime],
+    [formatDateTimeRange, formatTime, t],
   );
 
   // Scroll to the earliest pre-existing slot exactly once, on mount, so the
@@ -272,6 +283,9 @@ const WeekCalendar: React.FunctionComponent<DateTimePickerProps> = ({
         slotDuration={15}
         snapDuration={30}
         i18n={i18n}
+        renderDayHeader={({ day }) =>
+          formatDateTime(day, "weekdayDay", { timeZone: FLOATING_TIME_ZONE })
+        }
         renderTimeGutterSlot={({ time, hour, minute }) =>
           // The engine's default gutter uses date-fns with its own format
           // string, ignoring our 12h/24h preference. Render the hour label with
