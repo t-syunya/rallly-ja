@@ -1,5 +1,4 @@
 {
-  "usageGuide": "Japanese usage guide",
   "12h": "12-hour",
   "12hShort": "12h",
   "24h": "24-hour",
@@ -1144,6 +1143,7 @@
   "upToDate": "Up to date",
   "url": "URL",
   "urlInvalid": "Must be a valid URL",
+  "usageGuide": "Japanese usage guide",
   "user": "User",
   "userCount": "{count, number, ::compact-short}",
   "userRegistration": "User registration",
