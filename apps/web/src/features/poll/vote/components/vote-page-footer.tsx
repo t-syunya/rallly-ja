@@ -10,10 +10,6 @@ export function VotePageFooter({
 }: {
   footerLinks: { label: string; href: string }[];
 }) {
-  if (footerLinks.length === 0) {
-    return null;
-  }
-
   return (
     <div className="flex flex-col items-center gap-4 py-3 text-center text-muted-foreground text-sm">
       <InstanceFooterLinks links={footerLinks} />

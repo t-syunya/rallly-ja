@@ -11,6 +11,7 @@ import {
 } from "@/components/empty-state";
 import { IfCloudHosted, IfSelfHosted } from "@/components/environment";
 import { Link } from "@/components/link";
+import { SourceLinks } from "@/components/source-links";
 import { isInitialAdmin } from "@/features/instance-settings/utils";
 import { loadOptionalUser } from "@/features/user/loaders";
 import { Trans } from "@/i18n/client";
@@ -80,6 +81,7 @@ export default async function AdminSetupPage() {
               </a>
             </IfSelfHosted>
           </EmptyStateFooter>
+          <SourceLinks />
         </EmptyState>
         <div className="pb-6">
           <SignedInAs
@@ -117,6 +119,7 @@ export default async function AdminSetupPage() {
           </Link>
           <MakeMeAdminButton />
         </EmptyStateFooter>
+        <SourceLinks />
       </EmptyState>
     </main>
   );

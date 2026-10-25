@@ -89,6 +89,21 @@ test.describe("RSVP confirmation email", () => {
     await deleteAllMessages();
   });
 
+  for (const width of [1280, 390]) {
+    test(`source links are reachable on the event page at ${width}px`, async ({
+      page,
+    }) => {
+      await page.setViewportSize({ width, height: 720 });
+      await page.goto(`/e/${EVENT_ID}`);
+
+      for (const name of ["Rallly 日本語版 — Source code", "AGPLv3+"]) {
+        const link = page.getByRole("link", { name, exact: true });
+        await link.click({ trial: true });
+        await expect(link).toBeInViewport();
+      }
+    });
+  }
+
   test("sends a confirmation email with an accepted .ics after registering", async ({
     browser,
   }) => {

@@ -92,6 +92,8 @@ jobs:
         uses: docker/metadata-action@v5
         with:
           images: ${{ env.DOCKER_REGISTRY }}/${{ env.DOCKER_IMAGE_NAME }}
+          labels: |
+            org.opencontainers.image.licenses=AGPL-3.0-or-later
           tags: |
             # Use branch references for non-tag events.
             type=ref,event=branch
@@ -133,6 +135,7 @@ jobs:
           build-args: |
             APP_VERSION=${{ steps.version.outputs.app_version }}
             SELF_HOSTED=true
+            SOURCE_REVISION=${{ github.sha }}
 
       # -----------------------------------------------------------------
       # Capture Image Digest
@@ -195,6 +198,8 @@ jobs:
         uses: docker/metadata-action@v5
         with:
           images: ${{ env.DOCKER_REGISTRY }}/${{ env.DOCKER_IMAGE_NAME }}
+          labels: |
+            org.opencontainers.image.licenses=AGPL-3.0-or-later
           tags: |
             # Branch reference.
             type=ref,event=branch

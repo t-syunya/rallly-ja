@@ -4,6 +4,7 @@ import { LogInIcon } from "lucide-react";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { Link } from "@/components/link";
+import { SourceLinks } from "@/components/source-links";
 import { QuickCreateWidget } from "@/features/quick-create/components/quick-create-widget";
 import { isQuickCreateEnabled } from "@/features/quick-create/constants";
 import { getTranslation } from "@/i18n/server";
@@ -46,6 +47,7 @@ export default async function QuickCreatePage() {
               {t("login")}
             </Link>
           </div>
+          <SourceLinks />
         </Card>
       </main>
     </DeviceDateTimeProvider>

@@ -12,6 +12,7 @@ import LogoMarkGray from "@/assets/logo-mark-gray.svg";
 import { Link } from "@/components/link";
 import { OptimizedAvatarImage } from "@/components/optimized-avatar-image";
 import { SessionRefresher } from "@/components/session-refresher";
+import { SourceLinks } from "@/components/source-links";
 import { BrandStyle } from "@/features/branding/components/brand-style";
 import { formatLocationText } from "@/features/location/utils";
 import {
@@ -254,6 +255,7 @@ export default async function EventPage({
             ) : null}
           </div>
         </main>
+        <SourceLinks />
       </div>
     </DeviceDateTimeProvider>
   );

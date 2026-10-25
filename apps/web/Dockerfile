@@ -28,6 +28,9 @@ COPY --from=builder /app/out/full/ .
 COPY turbo.json turbo.json
 RUN pnpm db:generate
 
+ARG SOURCE_REVISION=main
+ENV NEXT_PUBLIC_SOURCE_REVISION=$SOURCE_REVISION
+
 ARG APP_VERSION
 ENV NEXT_PUBLIC_APP_VERSION=$APP_VERSION
 
@@ -53,6 +56,12 @@ RUN apt-get update \
   && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
+
+ARG SOURCE_REVISION=main
+LABEL org.opencontainers.image.source="https://github.com/t-syunya/rallly-ja" \
+      org.opencontainers.image.revision=$SOURCE_REVISION \
+      org.opencontainers.image.licenses="AGPL-3.0-or-later"
+COPY LICENSE NOTICE.md ./
 
 # Don't run production as root
 RUN addgroup --system nodejs \

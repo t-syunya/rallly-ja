@@ -2,6 +2,7 @@
 
 import { Button } from "@rallly/ui/button";
 import React from "react";
+import { SourceLinks } from "@/components/source-links";
 import { Trans } from "@/i18n/client";
 import { signOut } from "@/lib/auth-client";
 
@@ -9,7 +10,7 @@ export function SignedInFooter({ email }: { email: string }) {
   const [isSigningOut, setIsSigningOut] = React.useState(false);
 
   return (
-    <p className="flex flex-col items-center gap-4 text-muted-foreground text-sm">
+    <div className="flex flex-col items-center gap-4 text-muted-foreground text-sm">
       <span>
         <Trans
           i18nKey="setupFooterLoggedInAs"
@@ -38,6 +39,7 @@ export function SignedInFooter({ email }: { email: string }) {
       >
         <Trans i18nKey="signOut" defaults="Sign out" />
       </Button>
-    </p>
+      <SourceLinks />
+    </div>
   );
 }
