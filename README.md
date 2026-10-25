@@ -47,6 +47,26 @@ The quickest way to get started is the hosted version. Create your first poll in
 
 ランディングページ（`pnpm build:landing`）もトップページは日本語です。英語は `/en`、その他の言語は各言語コードのURLで表示できます。ブログ記事や法務文書の本文は原文のままです。
 
+### Docker Hubへの自動公開
+
+GitHub Actionsの「Build and Publish Container Image」で、Webアプリのセルフホスト用イメージを `linux/amd64`・`linux/arm64` 向けにビルドし、Docker Hubへ公開します。
+
+リポジトリの Settings → Secrets and variables → Actions で、次のRepository secretsを設定してください。アクセストークンをソースコードへ記載する必要はありません。
+
+| Secret             | 設定内容                                                       |
+| ------------------ | -------------------------------------------------------------- |
+| `DOCKER_NAMESPACE` | Docker Hubのイメージ名全体（例：`yourname/rallly-ja`）         |
+| `DOCKER_USERNAME`  | Docker Hubのユーザー名                                         |
+| `DOCKER_PASSWORD`  | 対象イメージへの書き込み権限を持つDocker Hubのアクセストークン |
+
+mainへのpushやマージだけでは公開しません。`v4.16.1` などのタグをpushした場合に `4.16.1`・`4.16`・`4`・`latest`・`sha-<コミット>` を公開します。プレリリースタグ（例：`v4.16.1-rc.1`）は完全なバージョンタグとSHAタグを公開し、`latest` は更新しません。
+
+手動で公開する場合は、Actions →「Build and Publish Container Image」→「Run workflow」で対象ブランチまたはタグを選んで実行してください。mainを選ぶと `latest`・`main`・`sha-<コミット>` を公開します。
+
+Docker Hub側にも対象リポジトリを作成してください。公開イメージとして使う場合は、Docker Hub側の公開範囲もPublicに設定します。実行例は `docker pull yourname/rallly-ja:latest` です。
+
+非公開GitHubリポジトリではGitHubのビルド証明をスキップします。元プロジェクトの本番デプロイ用ワークフローは、このリポジトリでは実行されません。
+
 Prefer to run your own instance? Rallly ships as a Docker image and can be self-hosted in minutes.
 
 See the [self-hosting docs](https://support.rallly.co/self-hosting) for installation and [configuration options](https://support.rallly.co/self-hosting/configuration-options).

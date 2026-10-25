@@ -16,15 +16,16 @@ test("unauthenticated visitor gets a working, hydrated login page", async ({
   // spec guards.
   await page.goto("/login");
 
-  await expect(page.getByText("Welcome")).toBeVisible();
+  await expect(page.locator("html")).toHaveAttribute("lang", "ja");
+  await expect(page.getByRole("heading", { name: "ようこそ" })).toBeVisible();
 
   // Filling the form proves client JS booted and hydrated — a crashed
   // bundle leaves the error boundary in place of the form.
   await page
-    .getByPlaceholder("jessie.smith@example.com")
+    .getByPlaceholder("taro.yamada@example.com")
     .fill("smoke-test@example.com");
   await expect(
-    page.getByRole("button", { name: "Continue with email" }),
+    page.getByRole("button", { name: "メールアドレスで続ける" }),
   ).toBeEnabled();
 
   expect(clientErrors).toEqual([]);

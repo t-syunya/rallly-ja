@@ -3,13 +3,17 @@ name: Build and Publish Container Image
 # Workflow Purpose:
 #   Builds container images for multiple architectures,
 #   pushes them to Docker Hub, and creates multi-arch manifest lists.
-# Trigger: Executes on push of tags that start with "v".
+# Trigger: Tags starting with "v", or a manual run.
 # -----------------------------------------------------------------
 on:
   push:
     tags:
       - "v*"
   workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: false
 
 # -----------------------------------------------------------------
 # Global Environment Variables:
@@ -55,6 +59,19 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
+      - name: Validate Docker Hub configuration
+        env:
+          DOCKER_NAMESPACE: ${{ secrets.DOCKER_NAMESPACE }}
+          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+        run: |
+          for name in DOCKER_NAMESPACE DOCKER_USERNAME DOCKER_PASSWORD; do
+            if [ -z "${!name}" ]; then
+              echo "::error::Docker Hub configuration is missing: $name"
+              exit 1
+            fi
+          done
+
       # -----------------------------------------------------------------
       # Log in to Docker Hub Registry
       # Purpose: Authenticate to Docker Hub for pushing the built images.
@@ -95,7 +112,13 @@ jobs:
       # -----------------------------------------------------------------
       - name: Resolve App Version
         id: version
-        run: echo "app_version=${GITHUB_REF_NAME#v}" | tee -a $GITHUB_OUTPUT
+        run: |
+          if [[ "$GITHUB_REF" == refs/tags/v* ]]; then
+            version="${GITHUB_REF_NAME#v}"
+          else
+            version="$(node scripts/inject-version.js)"
+          fi
+          echo "app_version=$version" >> "$GITHUB_OUTPUT"
 
       - name: Build and Push Multi-Arch Image
         id: build
@@ -128,6 +151,7 @@ jobs:
       # Purpose: Create an artifact attestation for supply chain security.
       # -----------------------------------------------------------------
       - name: Generate Build Attestation
+        if: ${{ !github.event.repository.private }}
         uses: actions/attest-build-provenance@v2
         with:
           subject-name: ${{ env.DOCKER_REGISTRY }}/${{ env.DOCKER_IMAGE_NAME }}
@@ -174,6 +198,8 @@ jobs:
           tags: |
             # Branch reference.
             type=ref,event=branch
+            type=raw,value=latest,enable={{is_default_branch}}
+            type=sha
             # Semantic version tags on tag events.
             type=semver,event=tag,pattern={{version}}
             type=semver,event=tag,pattern={{major}}.{{minor}}
