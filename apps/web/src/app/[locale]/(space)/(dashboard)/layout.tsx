@@ -14,6 +14,7 @@ import {
 import { SettingsIcon } from "lucide-react";
 import { Suspense } from "react";
 import { HoverPrefetchLink } from "@/components/hover-prefetch-link";
+import { SourceLinks } from "@/components/source-links";
 import { PastDueAlert } from "@/features/billing/components/past-due-alert";
 import { UpdateIndicator } from "@/features/instance-settings/components/update-indicator";
 import { LicenseLimitWarning } from "@/features/licensing/components/license-limit-warning";
@@ -87,6 +88,7 @@ export default async function Layout({
           </SidebarGroup>
           <SidebarSeparator className="my-1" />
           <NavUser />
+          <SourceLinks />
         </SidebarFooter>
       </Sidebar>
       {/* Bounded to the viewport so a page can own its scroll area (list

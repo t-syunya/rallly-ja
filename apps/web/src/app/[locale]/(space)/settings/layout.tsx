@@ -17,6 +17,7 @@ import {
 import { ArrowLeftIcon, SettingsIcon } from "lucide-react";
 import type React from "react";
 import { HoverPrefetchLink } from "@/components/hover-prefetch-link";
+import { SourceLinks } from "@/components/source-links";
 import { PastDueAlert } from "@/features/billing/components/past-due-alert";
 import { NavUser } from "@/features/user/components/nav-user";
 import { Trans } from "@/i18n/client";
@@ -80,6 +81,7 @@ export default function Layout({ children }: { children?: React.ReactNode }) {
         </SidebarContent>
         <SidebarFooter>
           <NavUser />
+          <SourceLinks />
         </SidebarFooter>
       </Sidebar>
       <SidebarInset id="main-content" tabIndex={-1}>

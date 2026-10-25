@@ -16,6 +16,7 @@ import {
   UsersIcon,
 } from "lucide-react";
 import type * as React from "react";
+import { SourceLinks } from "@/components/source-links";
 
 import { NavUser } from "@/features/user/components/nav-user";
 import { Trans } from "@/i18n/client";
@@ -66,6 +67,7 @@ export async function ControlPanelSidebar(
       </SidebarContent>
       <SidebarFooter>
         <NavUser />
+        <SourceLinks />
       </SidebarFooter>
     </Sidebar>
   );

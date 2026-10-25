@@ -2,6 +2,7 @@ import { prisma } from "@rallly/database";
 import { Card } from "@rallly/ui/card";
 import { notFound } from "next/navigation";
 import { OptimizedAvatarImage } from "@/components/optimized-avatar-image";
+import { SourceLinks } from "@/components/source-links";
 import { Logo } from "@/features/branding/components/logo";
 import { SpaceIcon } from "@/features/space/components/space-icon";
 import { loadUser } from "@/features/user/loaders";
@@ -105,6 +106,7 @@ export default async function JoinPage({
           </div>
         </Card>
       </main>
+      <SourceLinks />
     </div>
   );
 }

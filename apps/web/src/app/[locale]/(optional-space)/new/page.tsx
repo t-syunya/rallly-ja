@@ -10,6 +10,7 @@ import { BarChart2Icon } from "lucide-react";
 import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 import { Link } from "@/components/link";
+import { SourceLinks } from "@/components/source-links";
 import { BrandStyle } from "@/features/branding/components/brand-style";
 import { loadConferencingOptions } from "@/features/conferencing/loaders";
 import { loadInstancePolicy } from "@/features/instance-policy/loaders";
@@ -74,6 +75,7 @@ export default async function Page() {
           </Breadcrumb>
         }
       />
+      <SourceLinks />
     </div>
   );
 }
