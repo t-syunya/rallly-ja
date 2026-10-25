@@ -2,6 +2,7 @@
 import { cn } from "@rallly/ui";
 import type { MonthGridDayProps } from "@rallly/ui/month-grid";
 import { MonthGrid } from "@rallly/ui/month-grid";
+import { weekdayColor } from "@rallly/ui/weekday-color";
 import * as React from "react";
 import VoteIcon from "@/features/poll/components/vote-icon";
 import type { VoteType } from "@/features/poll/constants";
@@ -16,7 +17,7 @@ import { VoteScore } from "@/features/poll/vote/components/vote-score";
 import type { VoteResult, VoteViewProps } from "@/features/poll/vote/types";
 import { useTranslation } from "@/i18n/client";
 import { useDateTimeConfig } from "@/lib/datetime/client";
-import { getLocaleDefaults } from "@/lib/datetime/locales";
+import { getLocaleDefaults, getWeekdayNames } from "@/lib/datetime/locales";
 import { useHydrated } from "@/lib/datetime/use-hydrated";
 import { toISODate } from "@/lib/datetime/utils";
 
@@ -111,6 +112,9 @@ function DayCell({ day, modifiers, className, ...props }: MonthGridDayProps) {
   const ctx = React.useContext(DayContextValue);
   const result = ctx?.byDate.get(toISODate(day.date));
   const interactive = result !== undefined && (ctx?.canVote ?? false);
+  const dayNumber = (
+    <span className={weekdayColor(day.date.getUTCDay())}>{props.children}</span>
+  );
 
   return (
     <button
@@ -127,10 +131,10 @@ function DayCell({ day, modifiers, className, ...props }: MonthGridDayProps) {
       {...props}
     >
       {result ? (
-        <OptionDayContent result={result} dayNumber={props.children} />
+        <OptionDayContent result={result} dayNumber={dayNumber} />
       ) : (
         <span aria-hidden="true" className="tabular-nums">
-          {props.children}
+          {dayNumber}
         </span>
       )}
     </button>
@@ -244,6 +248,27 @@ export function VoteViewCalendar({
     <div className="relative flex min-h-0 flex-1 flex-col">
       <DayContextValue.Provider value={ctx}>
         <MonthGrid
+          components={{
+            Weekdays: (props) => (
+              <thead aria-hidden="true">
+                <tr {...props}>
+                  {getWeekdayNames(locale).map(({ day, label, short }) => (
+                    <th
+                      key={day}
+                      scope="col"
+                      aria-label={label}
+                      className={cn(
+                        "flex-1 pb-1 text-center font-normal text-muted-foreground text-xs",
+                        weekdayColor(day),
+                      )}
+                    >
+                      {short}
+                    </th>
+                  ))}
+                </tr>
+              </thead>
+            ),
+          }}
           // All-day options are stored as UTC wall time, so the calendar
           // does its month maths in UTC; anything else shifts a day across
           // the boundary.

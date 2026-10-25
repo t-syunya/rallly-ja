@@ -1,6 +1,7 @@
 "use client";
 import { cn } from "@rallly/ui";
 import { Button } from "@rallly/ui/button";
+import { weekdayColor } from "@rallly/ui/weekday-color";
 import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react";
 import * as React from "react";
 import VoteIcon from "@/features/poll/components/vote-icon";
@@ -279,8 +280,16 @@ export function VoteViewWeek({
                 <span className="sr-only">
                   {formatDateTime(day.date, "dateFull", { timeZone: "UTC" })}
                 </span>
-                <span aria-hidden="true">
-                  <span className="block text-muted-foreground text-xs">
+                <span
+                  aria-hidden="true"
+                  className={weekdayColor(day.date.getUTCDay())}
+                >
+                  <span
+                    className={cn(
+                      "block text-muted-foreground text-xs",
+                      weekdayColor(day.date.getUTCDay()),
+                    )}
+                  >
                     {formatDateTime(day.date, "weekday", { timeZone: "UTC" })}
                   </span>
                   <span className="block font-medium text-sm tabular-nums">
