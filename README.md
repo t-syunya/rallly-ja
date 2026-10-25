@@ -59,7 +59,9 @@ GitHub Actionsの「Build and Publish Container Image」で、Webアプリのセ
 | `DOCKER_USERNAME`  | Docker Hubのユーザー名                                         |
 | `DOCKER_PASSWORD`  | 対象イメージへの書き込み権限を持つDocker Hubのアクセストークン |
 
-mainの更新時は `latest`・`main`・`sha-<コミット>`、`v4.16.1` などのタグをpushした場合は `4.16.1`・`4.16`・`4`・`latest` を公開します。プレリリースタグ（例：`v4.16.1-rc.1`）は完全なバージョンタグを公開し、`latest` は更新しません。Actions画面から手動実行もできます。
+mainへのpushやマージだけでは公開しません。`v4.16.1` などのタグをpushした場合に `4.16.1`・`4.16`・`4`・`latest`・`sha-<コミット>` を公開します。プレリリースタグ（例：`v4.16.1-rc.1`）は完全なバージョンタグとSHAタグを公開し、`latest` は更新しません。
+
+手動で公開する場合は、Actions →「Build and Publish Container Image」→「Run workflow」で対象ブランチまたはタグを選んで実行してください。mainを選ぶと `latest`・`main`・`sha-<コミット>` を公開します。
 
 Docker Hub側にも対象リポジトリを作成してください。公開イメージとして使う場合は、Docker Hub側の公開範囲もPublicに設定します。実行例は `docker pull yourname/rallly-ja:latest` です。
 

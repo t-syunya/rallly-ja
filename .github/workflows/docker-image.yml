@@ -3,12 +3,10 @@ name: Build and Publish Container Image
 # Workflow Purpose:
 #   Builds container images for multiple architectures,
 #   pushes them to Docker Hub, and creates multi-arch manifest lists.
-# Trigger: Updates to main, tags starting with "v", or a manual run.
+# Trigger: Tags starting with "v", or a manual run.
 # -----------------------------------------------------------------
 on:
   push:
-    branches:
-      - main
     tags:
       - "v*"
   workflow_dispatch:
